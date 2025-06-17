@@ -2,6 +2,27 @@
  * @NApiVersion 2.1
  * @NScriptType Suitelet
  */
+/**********************************************************************************************
+* 
+*
+*
+*
+${OTP-8975}:{Search through the database to find the matching blood donors}
+*
+*
+**************************************************************************************************
+*
+*Author:Jobin and Jismi IT Services
+*
+*Date Created:17-June-2025
+*
+*Description:This script ensures that whenever a user selects a blood group in the form,the list of eligible blood donors—filtered based on the 
+*selected blood group and the donor's last blood donation date—is displayed in the form.
+*
+** REVISION HISTORY
+ *
+* @version 1.0 17-June-2025 : Created the initial build by JJ0403
+*/
 define(['N/log', 'N/record', 'N/search', 'N/ui/serverWidget'],
     /**
  * @param{log} log
