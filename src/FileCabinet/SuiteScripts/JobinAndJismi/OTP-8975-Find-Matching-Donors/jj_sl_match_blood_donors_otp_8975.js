@@ -2,7 +2,8 @@
  * @NApiVersion 2.1
  * @NScriptType Suitelet
  */
-/**********************************************************************************************
+/************************************************************************************************
+***************
 * 
 *
 *
@@ -20,9 +21,11 @@ ${OTP-8975}:{Search through the database to find the matching blood donors}
 *selected blood group and the donor's last blood donation date—is displayed in the form.
 *
 ** REVISION HISTORY
- *
+*
 * @version 1.0 17-June-2025 : Created the initial build by JJ0403
-*/
+
+*************************************************************************************************
+***********************/
 define(['N/log', 'N/record', 'N/search', 'N/ui/serverWidget'],
     /**
  * @param{log} log

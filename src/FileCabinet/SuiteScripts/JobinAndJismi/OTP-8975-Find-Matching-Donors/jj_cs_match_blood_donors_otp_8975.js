@@ -2,8 +2,9 @@
  * @NApiVersion 2.x
  * @NScriptType ClientScript
  * @NModuleScope SameAccount
- /**********************************************************************************************
-* 
+*/
+/**********************************************************************************************
+*************** 
 *
 *
 *
@@ -20,9 +21,12 @@ ${OTP-8975}:{Search through the database to find the matching blood donors}
 *selected blood group and the donor's last blood donation date—is displayed in the form.
 *
 ** REVISION HISTORY
- *
+*
 * @version 1.0 17-June-2025 : Created the initial build by JJ0403
-*/
+
+***************************************************************************************************
+
+*****************/
 define(['N/record', 'N/url'],
     /**
      * @param {record} record
