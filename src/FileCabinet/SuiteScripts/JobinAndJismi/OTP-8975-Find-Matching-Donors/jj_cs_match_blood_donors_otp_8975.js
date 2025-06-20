@@ -47,8 +47,8 @@ define(['N/record', 'N/url'],
          * @since 2015.2
          */
         function fieldChanged(scriptContext) {
-            console.log("fieldChanged triggered");
-
+            try {
+            
             let fieldId = scriptContext.fieldId;
             let curRecord = scriptContext.currentRecord;
 
@@ -57,6 +57,10 @@ define(['N/record', 'N/url'],
                 let suiteletUrl = generateSuiteletUrl(custBloodGrp);
 
                 navigateToSuitelet(suiteletUrl);
+            }
+                
+            } catch (error) {
+                log.error('Unexpected Error occurred', error);
             }
         }
 
@@ -67,6 +71,7 @@ define(['N/record', 'N/url'],
          * @returns {string} - Constructed Suitelet URL
          */
         function generateSuiteletUrl(custBloodGrp) {
+            try {
             return url.resolveScript({
                 scriptId: 'customscript_jj_sl_find_matching_donor',
                 deploymentId: 'customdeploy_jj_sl_find_matching_donor',
@@ -74,6 +79,11 @@ define(['N/record', 'N/url'],
                     'cust_bldgroup': custBloodGrp
                 }
             });
+                
+            } catch (error) {
+                log.error('Unexpected Error occurred', error);
+
+            }
         }
 
         /**

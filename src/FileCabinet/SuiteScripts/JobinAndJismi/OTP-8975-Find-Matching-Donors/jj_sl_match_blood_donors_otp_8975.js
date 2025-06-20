@@ -43,67 +43,71 @@ define(['N/log', 'N/record', 'N/search', 'N/ui/serverWidget'],
          */
         const onRequest = (scriptContext) => {
             try {
-                let sublist;
+                let donorData;
                 let donors = scriptContext.request.parameters.cust_bldgroup || '';
-                const form = createDonorFilterForm (donors);
-                form.clientScriptFileId = 1395;
-                scriptContext.response.writePage(form);
-                log.debug('donor_grp',donors)
+                const donorSearch = createDonorFilterForm (donors);
+                donorSearch.clientScriptFileId = 1395;
+                scriptContext.response.writePage(donorSearch);
                 findDonorByBldgrp(donors)
             } catch (error) {
                 log.error('Unexpected Error occurred', error);
             }
         }
         const createDonorFilterForm = (donors) => {
-            const form = serverWidget.createForm({
+            try{
+            const donorSearch = serverWidget.createForm({
                 title: 'Search Donor'
             });
-            form.addField({
+            donorSearch.addField({
                 id: 'search_bldgrp',
                 type: serverWidget.FieldType.SELECT,
                 label: 'Blood Group',
                 source:'customlist_jj_blood_grp'
             }).defaultValue = donors;
-            sublist = form.addSublist({
+            donorData = donorSearch.addSublist({
                 id: "sublistid",
                 type: serverWidget.SublistType.INLINEEDITOR,
                 label: "List of Donor Details",
             });
-            sublist.addField({
+            donorData.addField({
                 id: "sub_fisrt_name",
                 type: serverWidget.FieldType.TEXT,
                 label: "First name",
             });
-            sublist.addField({
+            donorData.addField({
                 id: "sub_last_name",
                 type: serverWidget.FieldType.TEXT,
                 label: "Last Name",
             });
-            sublist.addField({
+            donorData.addField({
                 id: "sub_phno",
                 type: serverWidget.FieldType.TEXT,
                 label: "Phone Number",
             });
-            sublist.addField({
+            donorData.addField({
                 id: "sub_gender",
                 type: serverWidget.FieldType.TEXT,
                 label: "Gender",
             });
-            sublist.addField({
+            donorData.addField({
                 id: "sub_bldgrp",
                 type: serverWidget.FieldType.TEXT,
                 label: "Blood Group",
             });
-            sublist.addField({
+            donorData.addField({
                 id: "sub_last_dondate",
                 type: serverWidget.FieldType.TEXT,
                 label: "Last Donation Date",
             });
-            return form;
+            return donorSearch;
+            } catch (error) {
+                log.error('Unexpected Error occurred', error);
+            }
         }
 
         const findDonorByBldgrp =(donors) =>{
-        
+        try{
+
         let filter = [["custrecord_jj_last_donation_date","before","threemonthsagotodate"]]
         if ( donors) {
             filter.push("AND", ["custrecord_jj_bld_group", "anyof", donors]);
@@ -131,32 +135,32 @@ define(['N/log', 'N/record', 'N/search', 'N/ui/serverWidget'],
                     let BloodGroup = result.getText('custrecord_jj_bld_group');
                     let LastDonationDate = result.getValue('custrecord_jj_last_donation_date');   
                     
-                    sublist.setSublistValue({
+                    donorData.setSublistValue({
                         id: "sub_fisrt_name",
                         line: index,
                         value: FirstName,
                     });
-                    sublist.setSublistValue({
+                    donorData.setSublistValue({
                         id: "sub_last_name",
                         line: index,
                         value: LastName,
                     });
-                    sublist.setSublistValue({
+                    donorData.setSublistValue({
                         id: "sub_phno",
                         line: index,
                         value: PhoneNO,
                     });
-                    sublist.setSublistValue({
+                    donorData.setSublistValue({
                         id: "sub_bldgrp",
                         line: index,
                         value: BloodGroup,
                     });
-                    sublist.setSublistValue({
+                    donorData.setSublistValue({
                         id: "sub_last_dondate",
                         line: index,
                         value: LastDonationDate,
                     });
-                    sublist.setSublistValue({
+                    donorData.setSublistValue({
                         id: "sub_gender",
                         line: index,
                         value: Gender,
@@ -164,7 +168,11 @@ define(['N/log', 'N/record', 'N/search', 'N/ui/serverWidget'],
                     index++;
                     return true;
                 });
+            } catch (error) {
+                log.error('Unexpected Error occurred', error);
+            }
         }
+
 
 
         return {onRequest}
