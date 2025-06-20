@@ -17,8 +17,9 @@ ${OTP-8975}:{Search through the database to find the matching blood donors}
 *
 *Date Created:17-June-2025
 *
-*Description:This script ensures that whenever a user selects a blood group in the form,the list of eligible blood donors—filtered based on the 
-*selected blood group and the donor's last blood donation date—is displayed in the form.
+*Description:This script ensures that whenever a user selects a blood group in the form,the list 
+*of eligible blood donors—filtered based on the selected blood group and the donor's last blood
+* donation date—is displayed in the form.
 *
 ** REVISION HISTORY
 *
