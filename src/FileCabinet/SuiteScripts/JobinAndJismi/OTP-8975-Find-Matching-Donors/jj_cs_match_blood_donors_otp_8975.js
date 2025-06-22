@@ -35,31 +35,23 @@ define(['N/record', 'N/url'],
      */
     function (record, url) {
 
-        /**
-         * Handles the field change event.
-         *
-         * @param {Object} scriptContext
-         * @param {Record} scriptContext.currentRecord - Current form record
-         * @param {string} scriptContext.sublistId - Sublist name
-         * @param {string} scriptContext.fieldId - Field name
-         * @param {number} scriptContext.lineNum - Line number. Will be undefined if not a sublist or matrix field
-         * @param {number} scriptContext.columnNum - Column number. Will be undefined if not a matrix field
-         *
-         * @since 2015.2
-         */
-        function fieldChanged(scriptContext) {
+        
+    /**
+      * Validation function to be executed when record is saved.
+      *
+      * @param {Object} scriptContext
+      * @param {Record} scriptContext.currentRecord - Current form record
+      * @returns {boolean} Return true if record is valid
+      *
+      * @since 2015.2
+      */
+        function saveRecord(scriptContext) {
             try {
-            
-            let fieldId = scriptContext.fieldId;
-            let curRecord = scriptContext.currentRecord;
+                    let curRecord = scriptContext.currentRecord;
+                    let custBloodGrp = curRecord.getValue('search_bldgrp');
+                    let suiteletUrl = generateSuiteletUrl(custBloodGrp);
 
-            if (fieldId === 'search_bldgrp') {
-                let custBloodGrp = curRecord.getValue('search_bldgrp');
-                let suiteletUrl = generateSuiteletUrl(custBloodGrp);
-
-                navigateToSuitelet(suiteletUrl);
-            }
-                
+                    navigateToSuitelet(suiteletUrl);                
             } catch (error) {
                 log.error('Unexpected Error occurred', error);
             }
@@ -73,13 +65,13 @@ define(['N/record', 'N/url'],
          */
         function generateSuiteletUrl(custBloodGrp) {
             try {
-            return url.resolveScript({
-                scriptId: 'customscript_jj_sl_find_matching_donor',
-                deploymentId: 'customdeploy_jj_sl_find_matching_donor',
-                params: {
-                    'cust_bldgroup': custBloodGrp
-                }
-            });
+                return url.resolveScript({
+                    scriptId: 'customscript_jj_sl_find_matching_donor',
+                    deploymentId: 'customdeploy_jj_sl_find_matching_donor',
+                    params: {
+                        'cust_bldgroup': custBloodGrp
+                    }
+                });
                 
             } catch (error) {
                 log.error('Unexpected Error occurred', error);
@@ -93,10 +85,16 @@ define(['N/record', 'N/url'],
          * @param {string} suiteletUrl - URL to navigate to
          */
         function navigateToSuitelet(suiteletUrl) {
-            window.location.href = suiteletUrl;
+            try{
+                window.onbeforeunload = null; 
+                window.location.href = suiteletUrl;
+            } catch (error) {
+                log.error('Unexpected Error occurred', error);
+
+            }
         }
 
         return {
-            fieldChanged: fieldChanged
+            saveRecord: saveRecord,
         };
     });
