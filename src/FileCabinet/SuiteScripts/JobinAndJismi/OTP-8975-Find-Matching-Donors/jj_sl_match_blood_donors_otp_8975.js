@@ -47,6 +47,8 @@ define(['N/log', 'N/record', 'N/search', 'N/ui/serverWidget'],
                 let donorData;
                 let donors = scriptContext.request.parameters.cust_bldgroup || '';
                 const donorSearch = createDonorFilterForm (donors);
+                donorSearch.addSubmitButton({ label: "Search" });
+                donorSearch.addResetButton({label: 'Reset'});
                 donorSearch.clientScriptFileId = 1395;
                 scriptContext.response.writePage(donorSearch);
                 findDonorByBldgrp(donors)
@@ -60,43 +62,43 @@ define(['N/log', 'N/record', 'N/search', 'N/ui/serverWidget'],
                     title: 'Search Donor'
                 });
                 donorSearch.addField({
-                    id: 'search_bldgrp',
+                    id: 'custpage_bldgrp',
                     type: serverWidget.FieldType.SELECT,
                     label: 'Blood Group',
                     source:'customlist_jj_blood_grp'
                 }).defaultValue = donors;
                 donorData = donorSearch.addSublist({
-                    id: "sublistid",
+                    id: "custpage_sublistid",
                     type: serverWidget.SublistType.INLINEEDITOR,
                     label: "List of Donor Details",
                 });
                 donorData.addField({
-                    id: "sub_fisrt_name",
+                    id: "custpage_fisrt_name",
                     type: serverWidget.FieldType.TEXT,
                     label: "First name",
                 });
                 donorData.addField({
-                    id: "sub_last_name",
+                    id: "custpage_last_name",
                     type: serverWidget.FieldType.TEXT,
                     label: "Last Name",
                 });
                 donorData.addField({
-                    id: "sub_phno",
+                    id: "custpage_phno",
                     type: serverWidget.FieldType.TEXT,
                     label: "Phone Number",
                 });
                 donorData.addField({
-                    id: "sub_gender",
+                    id: "custpage_gender",
                     type: serverWidget.FieldType.TEXT,
                     label: "Gender",
                 });
                 donorData.addField({
-                    id: "sub_bldgrp",
+                    id: "custpage_bldgrp",
                     type: serverWidget.FieldType.TEXT,
                     label: "Blood Group",
                 });
                 donorData.addField({
-                    id: "sub_last_dondate",
+                    id: "custpage_last_dondate",
                     type: serverWidget.FieldType.TEXT,
                     label: "Last Donation Date",
                 });
@@ -109,7 +111,9 @@ define(['N/log', 'N/record', 'N/search', 'N/ui/serverWidget'],
         const findDonorByBldgrp =(donors) =>{
         try{
 
-            let filter = [["custrecord_jj_last_donation_date","before","threemonthsagotodate"]]
+            let filter = [["custrecord_jj_last_donation_date","before","threemonthsagotodate"],
+                            "AND", 
+                            ["isinactive","is","F"]]
             if ( donors) {
                 filter.push("AND", ["custrecord_jj_bld_group", "anyof", donors]);
             }
@@ -137,32 +141,32 @@ define(['N/log', 'N/record', 'N/search', 'N/ui/serverWidget'],
                         let LastDonationDate = result.getValue('custrecord_jj_last_donation_date');   
                         
                         donorData.setSublistValue({
-                            id: "sub_fisrt_name",
+                            id: "custpage_fisrt_name",
                             line: index,
                             value: FirstName,
                         });
                         donorData.setSublistValue({
-                            id: "sub_last_name",
+                            id: "custpage_last_name",
                             line: index,
                             value: LastName,
                         });
                         donorData.setSublistValue({
-                            id: "sub_phno",
+                            id: "custpage_phno",
                             line: index,
                             value: PhoneNO,
                         });
                         donorData.setSublistValue({
-                            id: "sub_bldgrp",
+                            id: "custpage_bldgrp",
                             line: index,
                             value: BloodGroup,
                         });
                         donorData.setSublistValue({
-                            id: "sub_last_dondate",
+                            id: "custpage_last_dondate",
                             line: index,
                             value: LastDonationDate,
                         });
                         donorData.setSublistValue({
-                            id: "sub_gender",
+                            id: "custpage_gender",
                             line: index,
                             value: Gender,
                         });

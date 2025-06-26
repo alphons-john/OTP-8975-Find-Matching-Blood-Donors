@@ -48,7 +48,7 @@ define(['N/record', 'N/url'],
         function saveRecord(scriptContext) {
             try {
                     let curRecord = scriptContext.currentRecord;
-                    let custBloodGrp = curRecord.getValue('search_bldgrp');
+                    let custBloodGrp = curRecord.getValue('custpage_bldgrp');
                     let suiteletUrl = generateSuiteletUrl(custBloodGrp);
 
                     navigateToSuitelet(suiteletUrl);                
